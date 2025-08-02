@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -31,3 +32,11 @@ class Polls(BaseAbstractModel):
     description = models.TextField(blank=True, null=True)
     poll_type = models.CharField(max_length=10, choices=POLL_TYPES, default='single')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+
+    # Poll timing
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(null=True, blank=True)
+    
+    # Settings
+    allow_anonymous = models.BooleanField(default=False)
+    require_authentication = models.BooleanField(default=True)
