@@ -14,8 +14,8 @@ class BaseAbstractModel(models.Model):
 
 class Polls(BaseAbstractModel):
     POLL_TYPES = (
-        ('single','Single Choice'),
-        ('multiple','Multiple Choice'),
+        ('single', 'Single Choice'),
+        ('multiple', 'Multiple Choice'),
     )
 
     STATUS_CHOICES = [
