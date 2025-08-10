@@ -3,8 +3,11 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from django.db import transaction
 import logging
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import UserRegistrationSerializer
+from .serializers import (
+    UserRegistrationSerializer, CustomTokenObtainPairSerializer,
+)
 from .models import Role, UserRole
 
 
@@ -60,3 +63,15 @@ class UserRegistrationView(APIView):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        """
+        Override to return only token data
+        """
+        response = super().post(request, *args, **kwargs)
+        
+        return response
