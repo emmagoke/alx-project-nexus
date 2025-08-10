@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -63,12 +64,17 @@ class User(AbstractUser, Timestamp):
     user_type = models.CharField(max_length=10, choices=USER_TYPES, default='user')
     
     # Role and permission relationships
-    roles = models.ManyToManyField("Role", blank=True, through='UserRole')
-    additional_permissions = models.ManyToManyField(
-        Permission, 
+    roles = models.ManyToManyField(
+        Role,
         blank=True,
-        help_text="Extra permissions granted directly to this user"
+        through='UserRole',
+        through_fields=('user', 'role') # Specifies which fields to use for the M2M relationship
     )
+    # additional_permissions = models.ManyToManyField(
+    #     Permission, 
+    #     blank=True,
+    #     help_text="Extra permissions granted directly to this user"
+    # )
     
     # Rate limiting fields
     api_calls_count = models.PositiveIntegerField(default=0)
